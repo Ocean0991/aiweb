@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f916.png">
+    <link rel="apple-touch-icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f916.png">
+    <link rel="shortcut icon" type="image/x-icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f916.png">
+    <title>AI Tools Navigator | Global AI Tools Collection</title>
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --card-gradient: linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            --bg-dark: #0f172a;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --card-bg: #1e293b;
+            --hover-color: #3b82f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(
+                135deg, 
+                #0f172a 0%,
+                #1e1b4b 25%,
+                #1e1b4b 75%,
+                #0f172a 100%
+            );
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: var(--card-gradient);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .lang-current {
+            padding: 8px 16px;
+            color: var(--text-primary);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lang-current:after {
+            content: '▼';
+            font-size: 0.8em;
+            transition: transform 0.3s ease;
+        }
+
+        .lang-options {
+            display: none;
+            background: rgba(30, 41, 59, 0.95);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .lang-option {
+            padding: 8px 16px;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lang-option:hover {
+            background: var(--hover-color);
+            color: var(--text-primary);
+        }
+
+        .lang-switch.active .lang-options {
+            display: block;
+        }
+
+        .lang-switch.active .lang-current:after {
+            transform: rotate(180deg);
+        }
+
+        .lang-flag {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        h1 {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .search-bar {
+            margin: 20px auto;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: none;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(8px);
+            color: var(--text-primary);
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            background: rgba(30, 41, 59, 0.95);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+
+        .category {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--card-gradient);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .category-title {
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+        }
+
+        .category-title i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .tool-card {
+            padding: 20px;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        .tool-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .tool-name {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+            position: relative;
+        }
+
+        .tool-desc {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .tool-link {
+            color: var(--hover-color);
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .tool-link:hover {
+            color: #60a5fa;
+        }
+
+        .tool-link::after {
+            content: '→';
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .tool-link:hover::after {
+            transform: translateX(5px);
+        }
+
+        .tool-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .tag {
+            padding: 4px 8px;
+            border-radius: 6px;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--hover-color);
+            font-size: 0.8em;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 0;
+            }
+
+            header {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+
+            .search-bar {
+                max-width: 90%;
+            }
+
+            .category {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+
+            .tools-grid {
+                gap: 15px;
+            }
+
+            .tool-card {
+                padding: 15px;
+            }
+
+            .lang-switch {
+                position: fixed;
+                top: auto;
+                bottom: 20px;
+                right: 20px;
+                background: rgba(30, 41, 59, 0.95);
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                z-index: 1000;
+            }
+
+            .tool-card:active {
+                transform: scale(0.98);
+            }
+
+            .lang-option:active,
+            .tool-link:active {
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .category {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .category:nth-child(2) { animation-delay: 0.1s; }
+        .category:nth-child(3) { animation-delay: 0.2s; }
+        .category:nth-child(4) { animation-delay: 0.3s; }
+        .category:nth-child(5) { animation-delay: 0.4s; }
+        .category:nth-child(6) { animation-delay: 0.5s; }
+
+        /* 为阿拉伯语添加RTL支持 */
+        [dir="rtl"] {
+            direction: rtl;
+            text-align: right;
+        }
+
+        [dir="rtl"] .tool-link::after {
+            content: '←';
+            margin-right: 5px;
+            margin-left: 0;
+        }
+
+        [dir="rtl"] .lang-current:after {
+            margin-right: 5px;
+            margin-left: 0;
+        }
+
+        /* 添加无障碍支持 */
+        .tool-card:focus-within {
+            outline: 2px solid var(--hover-color);
+        }
+
+        .tool-link:focus {
+            outline: none;
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        // 定义多语言翻译对象
+        const translations = {
+            en: {
+                title: 'AI Tools Navigator',
+                subtitle: 'Global AI Tools Collection | Updated March 2025',
+                search: 'Search AI tools...',
+                categories: {
+                    text: 'Text & Conversation',
+                    image: 'Image & Design',
+                    code: 'Programming & Development',
+                    media: 'Audio & Video',
+                    productivity: 'Productivity & Creation',
+                    other: 'Other Tools'
+                },
+                visit: 'Visit Website',
+                tools: {
+                    chatgpt: {
+                        name: 'ChatGPT',
+                        desc: 'Conversational AI model by OpenAI'
+                    },
+                    claude: {
+                        name: 'Claude',
+                        desc: 'Multimodal AI assistant by Anthropic'
+                    },
+                    gemini: {
+                        name: 'Gemini Advanced',
+                        desc: 'Google\'s latest multimodal AI model'
+                    },
+                    perplexity: {
+                        name: 'Perplexity AI',
+                        desc: 'Real-time search-enhanced AI Q&A system'
+                    },
+                    chatpdf: {
+                        name: 'ChatPDF',
+                        desc: 'Intelligent conversation with PDF documents'
+                    },
+                    poe: {
+                        name: 'Poe',
+                        desc: 'Multiple AI models integration platform'
+                    },
+                    guiji: {
+                        name: 'Silicon Language AI',
+                        desc: 'Chinese AI conversation assistant'
+                    },
+                    chatglm: {
+                        name: 'ChatGLM',
+                        desc: 'Chinese large language model platform'
+                    }
+                    // ... 其他工具的英文翻译
+                }
+            },
+            zh: {
+                title: 'AI工具导航',
+                subtitle: '全球AI工具精选 | 2025年3月更新',
+                search: '搜索AI工具...',
+                categories: {
+                    text: '文本与对话类',
+                    image: '图像与设计类',
+                    code: '编程与开发类',
+                    media: '音视频处理类',
+                    productivity: '效率与创作类',
+                    other: '其他工具'
+                },
+                visit: '访问网站',
+                tools: {
+                    chatgpt: {
+                        name: 'ChatGPT',
+                        desc: 'OpenAI开发的对话式AI模型'
+                    },
+                    claude: {
+                        name: 'Claude',
+                        desc: 'Anthropic的多模态AI助手'
+                    },
+                    gemini: {
+                        name: 'Gemini Advanced',
+                        desc: '谷歌最新多模态AI模型'
+                    },
+                    perplexity: {
+                        name: 'Perplexity AI',
+                        desc: '实时搜索增强的AI问答系统'
+                    },
+                    chatpdf: {
+                        name: 'ChatPDF',
+                        desc: '与PDF文档进行智能对话'
+                    },
+                    poe: {
+                        name: 'Poe',
+                        desc: '多种AI模型集成平台'
+                    },
+                    guiji: {
+                        name: '硅语AI',
+                        desc: '中文AI对话助手'
+                    },
+                    chatglm: {
+                        name: '智谱清言',
+                        desc: '国产大模型对话平台'
+                    }
+                    // ... 其他工具的中文翻译
+                }
+            },
+            es: {
+                title: 'Navegador de Herramientas IA',
+                subtitle: 'Deja que la IA haga parte del trabajo | Actualizado Marzo 2025',
+                search: 'Buscar herramientas IA...',
+                categories: {
+                    text: 'Texto y Conversación',
+                    image: 'Imagen y Diseño',
+                    code: 'Programación y Desarrollo',
+                    media: 'Audio y Video',
+                    productivity: 'Productividad y Creación',
+                    other: 'Otras Herramientas'
+                },
+                visit: 'Visitar Sitio',
+                tools: {
+                    chatgpt: {
+                        name: 'ChatGPT',
+                        desc: 'Modelo de IA conversacional por OpenAI'
+                    },
+                    claude: {
+                        name: 'Claude',
+                        desc: 'Asistente de IA multimodal por Anthropic'
+                    },
+                    // ... 其他工具的西班牙语翻译
+                }
+            },
+            ar: {
+                title: 'مستكشف أدوات الذكاء الاصطناعي',
+                subtitle: 'دع الذكاء الاصطناعي يقوم ببعض العمل | تحديث مارس 2025',
+                search: 'البحث عن أدوات الذكاء الاصطناعي...',
+                categories: {
+                    text: 'النص والمحادثة',
+                    image: 'الصور والتصميم',
+                    code: 'البرمجة والتطوير',
+                    media: 'الصوت والفيديو',
+                    productivity: 'الإنتاجية والإبداع',
+                    other: 'أدوات أخرى'
+                },
+                visit: 'زيارة الموقع',
+                tools: {
+                    chatgpt: {
+                        name: 'ChatGPT',
+                        desc: 'نموذج محادثة الذكاء الاصطناعي من OpenAI'
+                    },
+                    claude: {
+                        name: 'Claude',
+                        desc: 'مساعد الذكاء الاصطناعي متعدد الوسائط من Anthropic'
+                    },
+                    // ... 其他工具的阿拉伯语翻译
+                }
+            },
+            fr: {
+                title: 'Navigateur d\'Outils IA',
+                subtitle: 'Laissez l\'IA faire une partie du travail | Mise à jour Mars 2025',
+                search: 'Rechercher des outils IA...',
+                categories: {
+                    text: 'Texte et Conversation',
+                    image: 'Image et Design',
+                    code: 'Programmation et Développement',
+                    media: 'Audio et Vidéo',
+                    productivity: 'Productivité et Création',
+                    other: 'Autres Outils'
+                },
+                visit: 'Visiter le Site',
+                tools: {
+                    chatgpt: {
+                        name: 'ChatGPT',
+                        desc: 'Modèle IA conversationnel par OpenAI'
+                    },
+                    claude: {
+                        name: 'Claude',
+                        desc: 'Assistant IA multimodal par Anthropic'
+                    },
+                    // ... 其他工具的法语翻译
+                }
+            }
+        };
+
+        // 获取用户语言偏好
+        function getUserLanguage() {
+            // 首先检查localStorage中存储的语言偏好
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (savedLang) {
+                return savedLang;
+            }
+            
+            // 如果没有存储的偏好，则检查浏览器语言
+            const userLang = navigator.language || navigator.userLanguage;
+            const lang = userLang.startsWith('zh') ? 'zh' : 
+                        userLang.startsWith('es') ? 'es' :
+                        userLang.startsWith('ar') ? 'ar' :
+                        userLang.startsWith('fr') ? 'fr' : 'en';
+                        
+            // 存储检测到的语言
+            localStorage.setItem('preferredLanguage', lang);
+            return lang;
+        }
+
+        // 设置当前语言
+        let currentLang = getUserLanguage();
+
+        // 更新语言选择器显示
+        function updateLanguageSelector(lang) {
+            const langOptions = document.querySelectorAll('.lang-option');
+            const option = Array.from(langOptions).find(opt => opt.getAttribute('data-lang') === lang);
+            if (option) {
+                const flag = option.querySelector('img').src;
+                const text = option.querySelector('span').textContent;
+                document.querySelector('.lang-current').innerHTML = `
+                    <img src="${flag}" alt="${text}" class="lang-flag">
+                    <span>${text}</span>
+                `;
+            }
+        }
+
+        // 修改语言切换函数
+        function switchLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('preferredLanguage', lang);
+            updateContent();
+            updateLanguageSelector(lang);
+        }
+
+        function updateContent() {
+            // 设置文档方向
+            document.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            
+            // 如果没有对应语言的翻译，使用英文
+            const lang = translations[currentLang] ? currentLang : 'en';
+            
+            document.title = translations[lang].title;
+            document.querySelector('h1').textContent = translations[lang].title;
+            document.querySelector('header p').textContent = translations[lang].subtitle;
+            document.querySelector('.search-input').placeholder = translations[lang].search;
+            
+            // 更新分类标题
+            document.querySelectorAll('.category-title').forEach(title => {
+                const key = title.getAttribute('data-key');
+                title.textContent = translations[lang].categories[key];
+            });
+
+            // 更新工具描述
+            document.querySelectorAll('.tool-card').forEach(card => {
+                const toolKey = card.getAttribute('data-tool');
+                if (toolKey && translations[lang].tools[toolKey]) {
+                    const tool = translations[lang].tools[toolKey];
+                    card.querySelector('.tool-name').textContent = tool.name;
+                    card.querySelector('.tool-desc').textContent = tool.desc;
+                    
+                    // 更新访问网站链接文本
+                    const link = card.querySelector('.tool-link');
+                    link.textContent = translations[lang].visit;
+                    // 根据语言添加箭头
+                    link.textContent += currentLang === 'ar' ? ' ←' : ' →';
+                }
+            });
+        }
+
+        // Search functionality
+        function searchTools(query) {
+            const cards = document.querySelectorAll('.tool-card');
+            query = query.toLowerCase();
+            
+            cards.forEach(card => {
+                const name = card.querySelector('.tool-name').textContent.toLowerCase();
+                const desc = card.querySelector('.tool-desc').textContent.toLowerCase();
+                
+                if (name.includes(query) || desc.includes(query)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 初始化时立即更新内容和语言选择器
+            updateContent();
+            updateLanguageSelector(currentLang);
+            
+            // 初始化搜索
+            const searchInput = document.querySelector('.search-input');
+            searchInput.addEventListener('input', (e) => {
+                searchTools(e.target.value);
+            });
+
+            const langSwitch = document.querySelector('.lang-switch');
+            const langCurrent = document.querySelector('.lang-current');
+            const langOptions = document.querySelectorAll('.lang-option');
+
+            // 切换语言选项显示
+            langCurrent.addEventListener('click', (e) => {
+                e.stopPropagation();
+                langSwitch.classList.toggle('active');
+            });
+
+            // 选择语言
+            langOptions.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    const lang = option.getAttribute('data-lang');
+                    switchLanguage(lang);
+                    langSwitch.classList.remove('active');
+                });
+            });
+
+            // 点击外部关闭语言选项
+            document.addEventListener('click', () => {
+                langSwitch.classList.remove('active');
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="lang-switch">
+            <div class="lang-current">
+                <!-- 将由JavaScript动态填充 -->
+            </div>
+            <div class="lang-options">
+                <div class="lang-option" data-lang="en">
+                    <img src="https://flagcdn.com/w40/us.png" alt="English" class="lang-flag">
+                    <span>English</span>
+                </div>
+                <div class="lang-option" data-lang="zh">
+                    <img src="https://flagcdn.com/w40/cn.png" alt="中文" class="lang-flag">
+                    <span>中文</span>
+                </div>
+                <div class="lang-option" data-lang="es">
+                    <img src="https://flagcdn.com/w40/es.png" alt="Español" class="lang-flag">
+                    <span>Español</span>
+                </div>
+                <div class="lang-option" data-lang="ar">
+                    <img src="https://flagcdn.com/w40/sa.png" alt="العربية" class="lang-flag">
+                    <span>العربية</span>
+                </div>
+                <div class="lang-option" data-lang="fr">
+                    <img src="https://flagcdn.com/w40/fr.png" alt="Français" class="lang-flag">
+                    <span>Français</span>
+                </div>
+            </div>
+        </div>
+
+        <header>
+            <h1></h1>
+            <p></p>
+            <div class="search-bar">
+                <input type="text" class="search-input">
+            </div>
+        </header>
+
+        <div class="category">
+            <h2 class="category-title" data-key="text">Text & Conversation</h2>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="chatgpt">
+                    <a href="https://chat.openai.com" class="card-link" target="_blank" aria-label="Visit ChatGPT Website"></a>
+                    <div class="tool-name">ChatGPT</div>
+                    <div class="tool-desc">OpenAI开发的对话式AI模型</div>
+                    <div class="tool-link">访问网站 →</div>
+                </div>
+                <div class="tool-card" data-tool="claude">
+                    <div class="tool-name">Claude</div>
+                    <div class="tool-desc">Anthropic的多模态AI助手</div>
+                    <a href="https://claude.ai" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="gemini">
+                    <div class="tool-name">Gemini Advanced</div>
+                    <div class="tool-desc">谷歌最新多模态AI模型</div>
+                    <a href="https://gemini.google.com" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="perplexity">
+                    <div class="tool-name">Perplexity AI</div>
+                    <div class="tool-desc">实时搜索增强的AI问答系统</div>
+                    <a href="https://www.perplexity.ai" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="chatpdf">
+                    <div class="tool-name">ChatPDF</div>
+                    <div class="tool-desc">与PDF文档进行智能对话</div>
+                    <a href="https://www.chatpdf.com/" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="poe">
+                    <div class="tool-name">Poe</div>
+                    <div class="tool-desc">多种AI模型集成平台</div>
+                    <a href="https://poe.com/" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="guiji">
+                    <div class="tool-name">硅语AI</div>
+                    <div class="tool-desc">中文AI对话助手</div>
+                    <a href="https://meta.guiji.ai/vshow-main/#/login" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="chatglm">
+                    <div class="tool-name">智谱清言</div>
+                    <div class="tool-desc">国产大模型对话平台</div>
+                    <a href="https://chatglm.cn/main/detail" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title" data-key="image">Image & Design</h2>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="midjourney">
+                    <div class="tool-name">MidJourney</div>
+                    <div class="tool-desc">艺术风格图像生成工具</div>
+                    <a href="https://www.midjourney.com" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="dall-e-3">
+                    <div class="tool-name">DALL·E 3</div>
+                    <div class="tool-desc">OpenAI最新图像生成模型</div>
+                    <a href="https://openai.com/dall-e-3" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="adobe-firefly">
+                    <div class="tool-name">Adobe Firefly</div>
+                    <div class="tool-desc">Adobe全家桶AI创意工具</div>
+                    <a href="https://www.adobe.com/sensei/generative-ai/firefly.html" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="remove-bg">
+                    <div class="tool-name">Remove.bg</div>
+                    <div class="tool-desc">智能图片背景去除工具</div>
+                    <a href="https://www.remove.bg" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="playground-ai">
+                    <div class="tool-name">Playground AI</div>
+                    <div class="tool-desc">快速生成高质量图像</div>
+                    <a href="https://app.playgroundai.com/create?" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="dreamstudio">
+                    <div class="tool-name">DreamStudio</div>
+                    <div class="tool-desc">Stability AI官方绘图平台</div>
+                    <a href="https://dreamstudio.ai/generate" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="dreamlike-art">
+                    <div class="tool-name">Dreamlike.art</div>
+                    <div class="tool-desc">艺术风格AI图像生成</div>
+                    <a href="https://dreamlike.art/create" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="smart-removal">
+                    <div class="tool-name">智能抹除</div>
+                    <div class="tool-desc">在线去水印去字幕工具</div>
+                    <a href="https://zenvideo.qq.com/smart/waterMask" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title" data-key="code">Programming & Development</h2>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="github-copilot">
+                    <div class="tool-name">GitHub Copilot</div>
+                    <div class="tool-desc">AI驱动的代码智能补全</div>
+                    <a href="https://github.com/features/copilot" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="microsoft-copilot">
+                    <div class="tool-name">Microsoft Copilot</div>
+                    <div class="tool-desc">微软全能AI助手</div>
+                    <a href="https://copilot.microsoft.com" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title" data-key="media">Audio & Video</h2>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="suno-ai">
+                    <div class="tool-name">Suno AI</div>
+                    <div class="tool-desc">AI音乐创作平台</div>
+                    <a href="https://suno.ai" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="elevenlabs">
+                    <div class="tool-name">ElevenLabs</div>
+                    <div class="tool-desc">AI语音克隆与合成</div>
+                    <a href="https://elevenlabs.io" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="runway-ml">
+                    <div class="tool-name">Runway ML</div>
+                    <div class="tool-desc">AI视频编辑工具</div>
+                    <a href="https://runway.ml" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="descript">
+                    <div class="tool-name">Descript</div>
+                    <div class="tool-desc">智能音视频编辑平台</div>
+                    <a href="https://www.descript.com" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="tongyi-tingwu">
+                    <div class="tool-name">通义听悟</div>
+                    <div class="tool-desc">阿里智能语音处理平台</div>
+                    <a href="https://tingwu.aliyun.com/home" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="d-id">
+                    <div class="tool-name">D-ID</div>
+                    <div class="tool-desc">AI数字人视频制作</div>
+                    <a href="https://studio.d-id.com/" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="heygen">
+                    <div class="tool-name">HeyGen</div>
+                    <div class="tool-desc">AI虚拟发言人视频</div>
+                    <a href="https://app.heygen.com/home" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title" data-key="productivity">Productivity & Creation</h2>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="notion-ai">
+                    <div class="tool-name">Notion AI</div>
+                    <div class="tool-desc">智能文档协作平台</div>
+                    <a href="https://www.notion.so/product/ai" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="gamma">
+                    <div class="tool-name">Gamma</div>
+                    <div class="tool-desc">AI驱动的演示文稿生成</div>
+                    <a href="https://gamma.app" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="canva-magic-studio">
+                    <div class="tool-name">Canva Magic Studio</div>
+                    <div class="tool-desc">AI设计自动化工具</div>
+                    <a href="https://www.canva.com/magic-studio/" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="grammarly">
+                    <div class="tool-name">Grammarly</div>
+                    <div class="tool-desc">AI写作助手与语法检查</div>
+                    <a href="https://www.grammarly.com" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="typewriteress">
+                    <div class="tool-name">打字姬</div>
+                    <div class="tool-desc">中文AI写作助手</div>
+                    <a href="https://app.typewriteress.cn/templates/official-tools" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="weekly-report">
+                    <div class="tool-name">周报生成器</div>
+                    <div class="tool-desc">智能工作周报生成工具</div>
+                    <a href="https://weeklyreport.avemaria.fun/zh" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="postme">
+                    <div class="tool-name">PostMe</div>
+                    <div class="tool-desc">中文AI内容创作平台</div>
+                    <a href="http://postme.cn/#/PostMe/Index" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title" data-key="other">Other Tools</h2>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="fliki">
+                    <div class="tool-name">Fliki</div>
+                    <div class="tool-desc">图文转视频工具</div>
+                    <a href="https://app.fliki.ai/files/64b8d9caea762438dbd8a571" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="synthesia">
+                    <div class="tool-name">Synthesia</div>
+                    <div class="tool-desc">AI数字人视频生成平台</div>
+                    <a href="https://www.synthesia.io" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="aishort">
+                    <div class="tool-name">AI快捷指令表</div>
+                    <div class="tool-desc">AI提示词指令集合</div>
+                    <a href="https://www.aishort.top/" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
