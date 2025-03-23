@@ -25,6 +25,12 @@
             --text-secondary: #94a3b8;
             --card-bg: #1e293b;
             --hover-color: #3b82f6;
+            --news-date: #64748b;
+            --news-source: #4ade80;
+            --rank-1: #ffd700;
+            --rank-2: #c0c0c0;
+            --rank-3: #cd7f32;
+            --rank-other: #64748b;
         }
 
         * {
@@ -398,6 +404,183 @@
             outline: none;
             text-decoration: underline;
         }
+
+        /* 添加新闻卡片样式 */
+        .news-card {
+            padding: 20px;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        .news-date {
+            font-size: 0.8em;
+            color: var(--news-date);
+        }
+
+        .news-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+
+        .news-desc {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .news-source {
+            font-size: 0.8em;
+            color: var(--news-source);
+            margin-top: auto;
+        }
+
+        .news-link {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
+
+        /* 添加排行榜样式 */
+        .ranking-container {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(8px);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .ranking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .ranking-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .ranking-update-time {
+            font-size: 0.8em;
+            color: var(--news-date);
+        }
+
+        .ranking-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+        }
+
+        .ranking-tab {
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .ranking-tab.active {
+            background: var(--hover-color);
+            color: var(--text-primary);
+        }
+
+        .ranking-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .ranking-item:hover {
+            transform: translateX(5px);
+            background: rgba(30, 41, 59, 0.7);
+        }
+
+        .ranking-position {
+            font-size: 1.2em;
+            font-weight: 700;
+            width: 40px;
+            text-align: center;
+        }
+
+        .ranking-position.rank-1 { color: var(--rank-1); }
+        .ranking-position.rank-2 { color: var(--rank-2); }
+        .ranking-position.rank-3 { color: var(--rank-3); }
+        .ranking-position.rank-other { color: var(--rank-other); }
+
+        .ranking-info {
+            flex: 1;
+            margin-left: 15px;
+        }
+
+        .ranking-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .ranking-metrics {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+
+        .ranking-metric {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .ranking-score {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--hover-color);
+        }
+
+        .ranking-trend {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9em;
+        }
+
+        .trend-up { color: #4ade80; }
+        .trend-down { color: #ef4444; }
+        .trend-stable { color: var(--text-secondary); }
     </style>
     <script>
         // 定义多语言翻译对象
@@ -412,7 +595,10 @@
                     code: 'Programming & Development',
                     media: 'Audio & Video',
                     productivity: 'Productivity & Creation',
-                    other: 'Other Tools'
+                    other: 'Other Tools',
+                    ranking: 'AI Rankings & Evaluations',
+                    news: 'AI News & Updates',
+                    'realtime-ranking': 'Real-time AI Rankings'
                 },
                 visit: 'Visit Website',
                 tools: {
@@ -447,8 +633,50 @@
                     chatglm: {
                         name: 'ChatGLM',
                         desc: 'Chinese large language model platform'
+                    },
+                    zhongping: {
+                        name: 'Zhongping Data',
+                        desc: 'Global AI website ranking with 2100+ top AI tools'
+                    },
+                    aigcrank: {
+                        name: 'AIGCRank',
+                        desc: 'Comprehensive AI product comparison platform'
+                    },
+                    'chatbot-arena': {
+                        name: 'Chatbot Arena',
+                        desc: 'AI model evaluation platform by UC Berkeley'
+                    },
+                    'artificial-analysis': {
+                        name: 'Artificial Analysis',
+                        desc: 'Independent AI model evaluation platform with 9 core metrics'
+                    },
+                    'seal-llm': {
+                        name: 'SEAL LLM Leaderboards',
+                        desc: 'AI model benchmarking platform by Scale Lab'
+                    },
+                    superclue: {
+                        name: 'SuperCLUE',
+                        desc: 'Leading Chinese language AI benchmark platform'
+                    },
+                    lambdatest: {
+                        name: 'LambdaTest AI Rankings',
+                        desc: 'AI tools ranking for software development and testing'
+                    },
+                    impact50: {
+                        name: 'InsideBigData IMPACT 50',
+                        desc: 'Quarterly AI enterprise ranking by MIT and Harvard'
                     }
-                    // ... 其他工具的英文翻译
+                },
+                ranking: {
+                    title: 'AI Model Performance Rankings',
+                    lastUpdate: 'Last Update',
+                    metrics: {
+                        accuracy: 'Accuracy',
+                        speed: 'Response Time',
+                        quality: 'Quality',
+                        users: 'Active Users',
+                        rating: 'User Rating'
+                    }
                 }
             },
             zh: {
@@ -461,7 +689,10 @@
                     code: '编程与开发类',
                     media: '音视频处理类',
                     productivity: '效率与创作类',
-                    other: '其他工具'
+                    other: '其他工具',
+                    ranking: 'AI评测与排行',
+                    news: 'AI新闻动态',
+                    'realtime-ranking': '实时AI排行榜'
                 },
                 visit: '访问网站',
                 tools: {
@@ -496,8 +727,54 @@
                     chatglm: {
                         name: '智谱清言',
                         desc: '国产大模型对话平台'
+                    },
+                    zhongping: {
+                        name: '众评数据',
+                        desc: '全球最大的AI网站排行榜，涵盖2100+顶尖AI工具'
+                    },
+                    aigcrank: {
+                        name: 'AIGCRank',
+                        desc: '专注于国内外AI产品横向对比的评测平台'
+                    },
+                    'chatbot-arena': {
+                        name: 'Chatbot Arena',
+                        desc: 'UC伯克利大学主导的AI模型对比评测平台'
+                    },
+                    'artificial-analysis': {
+                        name: 'Artificial Analysis',
+                        desc: '独立第三方AI模型评估平台，评测9大核心能力'
+                    },
+                    'seal-llm': {
+                        name: 'SEAL LLM排行榜',
+                        desc: 'Scale实验室开发的AI模型评测平台'
+                    },
+                    superclue: {
+                        name: 'SuperCLUE',
+                        desc: '中文场景下的领先评测基准平台'
+                    },
+                    lambdatest: {
+                        name: 'LambdaTest AI榜单',
+                        desc: '软件开发与测试领域AI工具榜单'
+                    },
+                    impact50: {
+                        name: 'InsideBigData IMPACT 50',
+                        desc: 'MIT和哈佛联合发布的AI企业季度榜单'
                     }
-                    // ... 其他工具的中文翻译
+                },
+                ranking: {
+                    title: 'AI模型性能排行',
+                    lastUpdate: '最后更新',
+                    metrics: {
+                        accuracy: '准确率',
+                        speed: '响应时间',
+                        quality: '生成质量',
+                        users: '活跃用户',
+                        rating: '用户评分'
+                    }
+                },
+                news: {
+                    source: '来源',
+                    readMore: '阅读更多'
                 }
             },
             es: {
@@ -510,7 +787,10 @@
                     code: 'Programación y Desarrollo',
                     media: 'Audio y Video',
                     productivity: 'Productividad y Creación',
-                    other: 'Otras Herramientas'
+                    other: 'Otras Herramientas',
+                    ranking: 'Rankings y Evaluaciones de IA',
+                    news: 'Noticias y Actualizaciones de IA',
+                    'realtime-ranking': 'Rankings de IA en Tiempo Real'
                 },
                 visit: 'Visitar Sitio',
                 tools: {
@@ -522,7 +802,77 @@
                         name: 'Claude',
                         desc: 'Asistente de IA multimodal por Anthropic'
                     },
-                    // ... 其他工具的西班牙语翻译
+                    gemini: {
+                        name: 'Gemini Advanced',
+                        desc: 'Google\'s latest multimodal AI model'
+                    },
+                    perplexity: {
+                        name: 'Perplexity AI',
+                        desc: 'Real-time search-enhanced AI Q&A system'
+                    },
+                    chatpdf: {
+                        name: 'ChatPDF',
+                        desc: 'Intelligent conversation with PDF documents'
+                    },
+                    poe: {
+                        name: 'Poe',
+                        desc: 'Multiple AI models integration platform'
+                    },
+                    guiji: {
+                        name: 'Silicon Language AI',
+                        desc: 'Chinese AI conversation assistant'
+                    },
+                    chatglm: {
+                        name: 'ChatGLM',
+                        desc: 'Chinese large language model platform'
+                    },
+                    zhongping: {
+                        name: 'Zhongping Data',
+                        desc: 'Ranking global de sitios web de IA con más de 2100 herramientas'
+                    },
+                    aigcrank: {
+                        name: 'AIGCRank',
+                        desc: 'Plataforma de comparación de productos de IA'
+                    },
+                    'chatbot-arena': {
+                        name: 'Chatbot Arena',
+                        desc: 'Plataforma de evaluación de IA por UC Berkeley'
+                    },
+                    'artificial-analysis': {
+                        name: 'Artificial Analysis',
+                        desc: 'Plataforma independiente de evaluación con 9 métricas principales'
+                    },
+                    'seal-llm': {
+                        name: 'SEAL LLM Leaderboards',
+                        desc: 'Plataforma de evaluación de modelos IA por Scale Lab'
+                    },
+                    superclue: {
+                        name: 'SuperCLUE',
+                        desc: 'Plataforma líder de evaluación en chino'
+                    },
+                    lambdatest: {
+                        name: 'LambdaTest AI Rankings',
+                        desc: 'Ranking de herramientas IA para desarrollo de software'
+                    },
+                    impact50: {
+                        name: 'InsideBigData IMPACT 50',
+                        desc: 'Ranking trimestral de empresas IA por MIT y Harvard'
+                    }
+                },
+                ranking: {
+                    title: 'Rankings de Rendimiento de Modelos IA',
+                    lastUpdate: 'Última Actualización',
+                    metrics: {
+                        accuracy: 'Precisión',
+                        speed: 'Tiempo de Respuesta',
+                        quality: 'Calidad',
+                        users: 'Usuarios Activos',
+                        rating: 'Calificación'
+                    }
+                },
+                news: {
+                    source: 'Fuente',
+                    readMore: 'Leer más'
                 }
             },
             ar: {
@@ -535,7 +885,10 @@
                     code: 'البرمجة والتطوير',
                     media: 'الصوت والفيديو',
                     productivity: 'الإنتاجية والإبداع',
-                    other: 'أدوات أخرى'
+                    other: 'أدوات أخرى',
+                    ranking: 'تصنيفات وتقييمات الذكاء الاصطناعي',
+                    news: 'أخبار وتحديثات الذكاء الاصطناعي',
+                    'realtime-ranking': 'تصنيفات الذكاء الاصطناعي المباشرة'
                 },
                 visit: 'زيارة الموقع',
                 tools: {
@@ -547,7 +900,77 @@
                         name: 'Claude',
                         desc: 'مساعد الذكاء الاصطناعي متعدد الوسائط من Anthropic'
                     },
-                    // ... 其他工具的阿拉伯语翻译
+                    gemini: {
+                        name: 'جيميني المتقدم',
+                        desc: 'أحدث نموذج ذكاء اصطناعي متعدد الوسائط من جوجل'
+                    },
+                    perplexity: {
+                        name: 'بيربليكستي',
+                        desc: 'نظام أسئلة وأجوبة معزز بالبحث المباشر'
+                    },
+                    chatpdf: {
+                        name: 'تشات بي دي إف',
+                        desc: 'محادثة ذكية مع ملفات PDF'
+                    },
+                    poe: {
+                        name: 'بو',
+                        desc: 'منصة تكامل نماذج الذكاء الاصطناعي المتعددة'
+                    },
+                    guiji: {
+                        name: 'سيليكون لانغويج',
+                        desc: 'مساعد محادثة باللغة الصينية'
+                    },
+                    chatglm: {
+                        name: 'ChatGLM',
+                        desc: 'Chinese large language model platform'
+                    },
+                    zhongping: {
+                        name: 'بيانات Zhongping',
+                        desc: 'تصنيف عالمي لمواقع الذكاء الاصطناعي يضم أكثر من 2100 أداة'
+                    },
+                    aigcrank: {
+                        name: 'AIGCRank',
+                        desc: 'منصة مقارنة شاملة لمنتجات الذكاء الاصطناعي'
+                    },
+                    'chatbot-arena': {
+                        name: 'Chatbot Arena',
+                        desc: 'منصة تقييم نماذج الذكاء الاصطناعي من جامعة بيركلي'
+                    },
+                    'artificial-analysis': {
+                        name: 'Artificial Analysis',
+                        desc: 'منصة تقييم مستقلة مع 9 معايير أساسية'
+                    },
+                    'seal-llm': {
+                        name: 'SEAL LLM تصنيفات',
+                        desc: 'منصة تقييم النماذج من مختبر Scale'
+                    },
+                    superclue: {
+                        name: 'SuperCLUE',
+                        desc: 'منصة تقييم رائدة باللغة الصينية'
+                    },
+                    lambdatest: {
+                        name: 'LambdaTest تصنيفات',
+                        desc: 'تصنيف أدوات الذكاء الاصطناعي لتطوير البرمجيات'
+                    },
+                    impact50: {
+                        name: 'InsideBigData IMPACT 50',
+                        desc: 'تصنيف ربع سنوي للشركات من MIT وهارفارد'
+                    }
+                },
+                ranking: {
+                    title: 'تصنيفات أداء نماذج الذكاء الاصطناعي',
+                    lastUpdate: 'آخر تحديث',
+                    metrics: {
+                        accuracy: 'الدقة',
+                        speed: 'وقت الاستجابة',
+                        quality: 'الجودة',
+                        users: 'المستخدمين النشطين',
+                        rating: 'تقييم المستخدم'
+                    }
+                },
+                news: {
+                    source: 'المصدر',
+                    readMore: 'اقرأ المزيد'
                 }
             },
             fr: {
@@ -560,7 +983,10 @@
                     code: 'Programmation et Développement',
                     media: 'Audio et Vidéo',
                     productivity: 'Productivité et Création',
-                    other: 'Autres Outils'
+                    other: 'Autres Outils',
+                    ranking: 'Classements et Évaluations IA',
+                    news: 'Actualités et Mises à Jour IA',
+                    'realtime-ranking': 'Classements IA en Temps Réel'
                 },
                 visit: 'Visiter le Site',
                 tools: {
@@ -572,7 +998,77 @@
                         name: 'Claude',
                         desc: 'Assistant IA multimodal par Anthropic'
                     },
-                    // ... 其他工具的法语翻译
+                    gemini: {
+                        name: 'Gemini Advanced',
+                        desc: 'Google\'s latest multimodal AI model'
+                    },
+                    perplexity: {
+                        name: 'Perplexity AI',
+                        desc: 'Real-time search-enhanced AI Q&A system'
+                    },
+                    chatpdf: {
+                        name: 'ChatPDF',
+                        desc: 'Intelligent conversation with PDF documents'
+                    },
+                    poe: {
+                        name: 'Poe',
+                        desc: 'Multiple AI models integration platform'
+                    },
+                    guiji: {
+                        name: 'Silicon Language AI',
+                        desc: 'Chinese AI conversation assistant'
+                    },
+                    chatglm: {
+                        name: 'ChatGLM',
+                        desc: 'Chinese large language model platform'
+                    },
+                    zhongping: {
+                        name: 'Zhongping Data',
+                        desc: 'Classement mondial des sites IA avec plus de 2100 outils'
+                    },
+                    aigcrank: {
+                        name: 'AIGCRank',
+                        desc: 'Plateforme de comparaison des produits IA'
+                    },
+                    'chatbot-arena': {
+                        name: 'Chatbot Arena',
+                        desc: 'Plateforme d\'évaluation IA par UC Berkeley'
+                    },
+                    'artificial-analysis': {
+                        name: 'Artificial Analysis',
+                        desc: 'Plateforme indépendante d\'évaluation avec 9 métriques clés'
+                    },
+                    'seal-llm': {
+                        name: 'SEAL LLM Leaderboards',
+                        desc: 'Plateforme d\'évaluation des modèles IA par Scale Lab'
+                    },
+                    superclue: {
+                        name: 'SuperCLUE',
+                        desc: 'Plateforme leader d\'évaluation en chinois'
+                    },
+                    lambdatest: {
+                        name: 'LambdaTest AI Rankings',
+                        desc: 'Classement des outils IA pour le développement logiciel'
+                    },
+                    impact50: {
+                        name: 'InsideBigData IMPACT 50',
+                        desc: 'Classement trimestriel des entreprises IA par MIT et Harvard'
+                    }
+                },
+                ranking: {
+                    title: 'Classements de Performance des Modèles IA',
+                    lastUpdate: 'Dernière Mise à Jour',
+                    metrics: {
+                        accuracy: 'Précision',
+                        speed: 'Temps de Réponse',
+                        quality: 'Qualité',
+                        users: 'Utilisateurs Actifs',
+                        rating: 'Évaluation'
+                    }
+                },
+                news: {
+                    source: 'Source',
+                    readMore: 'Lire la suite'
                 }
             }
         };
@@ -626,35 +1122,76 @@
             // 设置文档方向
             document.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
             
-            // 如果没有对应语言的翻译，使用英文
-            const lang = translations[currentLang] ? currentLang : 'en';
+            // 获取当前语言的翻译
+            const lang = translations[currentLang] || translations.en;
             
-            document.title = translations[lang].title;
-            document.querySelector('h1').textContent = translations[lang].title;
-            document.querySelector('header p').textContent = translations[lang].subtitle;
-            document.querySelector('.search-input').placeholder = translations[lang].search;
+            // 更新基本内容
+            document.title = lang.title;
+            document.querySelector('h1').textContent = lang.title;
+            document.querySelector('header p').textContent = lang.subtitle;
+            document.querySelector('.search-input').placeholder = lang.search;
             
             // 更新分类标题
             document.querySelectorAll('.category-title').forEach(title => {
                 const key = title.getAttribute('data-key');
-                title.textContent = translations[lang].categories[key];
+                title.textContent = lang.categories[key];
             });
 
-            // 更新工具描述
+            // 更新工具卡片
             document.querySelectorAll('.tool-card').forEach(card => {
                 const toolKey = card.getAttribute('data-tool');
-                if (toolKey && translations[lang].tools[toolKey]) {
-                    const tool = translations[lang].tools[toolKey];
+                if (toolKey && lang.tools[toolKey]) {
+                    const tool = lang.tools[toolKey];
                     card.querySelector('.tool-name').textContent = tool.name;
                     card.querySelector('.tool-desc').textContent = tool.desc;
                     
                     // 更新访问网站链接文本
                     const link = card.querySelector('.tool-link');
-                    link.textContent = translations[lang].visit;
-                    // 根据语言添加箭头
-                    link.textContent += currentLang === 'ar' ? ' ←' : ' →';
+                    if (link) {
+                        link.textContent = lang.visit;
+                        // 根据语言添加箭头
+                        link.textContent += currentLang === 'ar' ? ' ←' : ' →';
+                    }
                 }
             });
+
+            // 更新新闻卡片
+            document.querySelectorAll('.news-card').forEach(card => {
+                const source = card.querySelector('.news-source');
+                if (source) {
+                    const sourceText = source.textContent.split('：')[1];
+                    source.textContent = `${lang.news?.source || '来源'}：${sourceText}`;
+                }
+            });
+
+            // 更新排行榜
+            const rankingTitle = document.querySelector('.ranking-title');
+            const lastUpdate = document.querySelector('.ranking-update-time');
+            if (rankingTitle && lastUpdate && lang.ranking) {
+                rankingTitle.textContent = lang.ranking.title;
+                lastUpdate.innerHTML = `${lang.ranking.lastUpdate}: <span id="lastUpdateTime">${new Date().toLocaleString(currentLang)}</span>`;
+            }
+
+            // 更新RTL相关样式
+            if (currentLang === 'ar') {
+                document.body.classList.add('rtl');
+                // 调整RTL特定样式
+                document.querySelectorAll('.ranking-item').forEach(item => {
+                    item.style.flexDirection = 'row-reverse';
+                });
+                document.querySelectorAll('.tool-card').forEach(card => {
+                    card.style.textAlign = 'right';
+                });
+            } else {
+                document.body.classList.remove('rtl');
+                // 重置RTL样式
+                document.querySelectorAll('.ranking-item').forEach(item => {
+                    item.style.flexDirection = 'row';
+                });
+                document.querySelectorAll('.tool-card').forEach(card => {
+                    card.style.textAlign = 'left';
+                });
+            }
         }
 
         // Search functionality
@@ -709,6 +1246,144 @@
                 langSwitch.classList.remove('active');
             });
         });
+
+        // 添加排行榜相关的JavaScript代码
+        class RankingManager {
+            constructor() {
+                this.currentSource = 'lmsys';
+                this.lastUpdate = new Date();
+                this.rankingData = {};
+                this.updateInterval = 5 * 60 * 1000; // 5分钟更新一次
+            }
+
+            async initialize() {
+                await this.fetchRankingData();
+                this.setupEventListeners();
+                this.startAutoUpdate();
+            }
+
+            setupEventListeners() {
+                document.querySelectorAll('.ranking-tab').forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        document.querySelectorAll('.ranking-tab').forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+                        this.currentSource = tab.dataset.source;
+                        this.updateRankingDisplay();
+                    });
+                });
+            }
+
+            async fetchRankingData() {
+                try {
+                    // 这里应该是实际的API调用
+                    // 目前使用模拟数据
+                    this.rankingData = {
+                        lmsys: [
+                            { name: 'GPT-4', score: 9.8, trend: 'up', metrics: { accuracy: '98%', speed: '120ms' } },
+                            { name: 'Claude 3', score: 9.6, trend: 'up', metrics: { accuracy: '96%', speed: '150ms' } },
+                            { name: 'Gemini Ultra', score: 9.4, trend: 'stable', metrics: { accuracy: '94%', speed: '130ms' } },
+                            { name: 'GPT-3.5', score: 9.0, trend: 'down', metrics: { accuracy: '90%', speed: '100ms' } },
+                            { name: 'Claude 2', score: 8.8, trend: 'down', metrics: { accuracy: '88%', speed: '140ms' } }
+                        ],
+                        aigcrank: [
+                            { name: 'Midjourney V6', score: 9.9, trend: 'up', metrics: { quality: '99%', speed: '2s' } },
+                            { name: 'DALL·E 3', score: 9.7, trend: 'stable', metrics: { quality: '97%', speed: '3s' } },
+                            { name: 'Stable Diffusion 3', score: 9.5, trend: 'up', metrics: { quality: '95%', speed: '1s' } }
+                        ],
+                        zhongping: [
+                            { name: 'ChatGPT Plus', score: 9.7, trend: 'up', metrics: { users: '1000万+', rating: '4.9' } },
+                            { name: '文心一言', score: 9.5, trend: 'up', metrics: { users: '800万+', rating: '4.8' } },
+                            { name: '通义千问', score: 9.3, trend: 'stable', metrics: { users: '600万+', rating: '4.7' } }
+                        ]
+                    };
+                    this.lastUpdate = new Date();
+                    this.updateLastUpdateTime();
+                } catch (error) {
+                    console.error('Failed to fetch ranking data:', error);
+                }
+            }
+
+            updateRankingDisplay() {
+                const rankingList = document.getElementById('rankingList');
+                const data = this.rankingData[this.currentSource] || [];
+                const lang = translations[currentLang] || translations.en;
+                
+                // 更新标题和最后更新时间
+                document.querySelector('.ranking-title').textContent = lang.ranking.title;
+                document.querySelector('.ranking-update-time').innerHTML = 
+                    `${lang.ranking.lastUpdate}: <span id="lastUpdateTime">${new Date().toLocaleString(currentLang)}</span>`;
+                
+                rankingList.innerHTML = data.map((item, index) => `
+                    <div class="ranking-item">
+                        <div class="ranking-position rank-${index < 3 ? index + 1 : 'other'}">${index + 1}</div>
+                        <div class="ranking-info">
+                            <div class="ranking-name">${this.getLocalizedName(item.name, lang)}</div>
+                            <div class="ranking-metrics">
+                                ${Object.entries(item.metrics).map(([key, value]) => `
+                                    <div class="ranking-metric">
+                                        <span>${lang.ranking.metrics[key] || key}:</span>
+                                        <span>${this.getLocalizedValue(value, currentLang)}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="ranking-score">${item.score}</div>
+                        <div class="ranking-trend trend-${item.trend}">
+                            ${item.trend === 'up' ? '↑' : item.trend === 'down' ? '↓' : '→'}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            getLocalizedName(name, lang) {
+                // 为特定语言本地化模型名称
+                const nameMap = {
+                    zh: {
+                        'GPT-4': 'GPT-4',
+                        'Claude 3': 'Claude 3',
+                        'Gemini Ultra': 'Gemini Ultra',
+                        'GPT-3.5': 'GPT-3.5',
+                        'Claude 2': 'Claude 2',
+                        'ChatGPT Plus': 'ChatGPT Plus',
+                        '文心一言': '文心一言',
+                        '通义千问': '通义千问'
+                    },
+                    ar: {
+                        'GPT-4': 'جي بي تي-4',
+                        'Claude 3': 'كلود 3',
+                        'Gemini Ultra': 'جيميني ألترا',
+                        'GPT-3.5': 'جي بي تي-3.5',
+                        'Claude 2': 'كلود 2'
+                    }
+                };
+                
+                return nameMap[currentLang]?.[name] || name;
+            }
+
+            getLocalizedValue(value, lang) {
+                // 本地化数值显示
+                if (typeof value === 'string' && lang === 'ar') {
+                    // 将阿拉伯语中的数字转换为阿拉伯数字
+                    return value.replace(/\d+/g, num => num.replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d]));
+                }
+                return value;
+            }
+
+            updateLastUpdateTime() {
+                const timeElement = document.getElementById('lastUpdateTime');
+                timeElement.textContent = new Date().toLocaleString();
+            }
+
+            startAutoUpdate() {
+                setInterval(() => this.fetchRankingData(), this.updateInterval);
+            }
+        }
+
+        // 初始化排行榜
+        document.addEventListener('DOMContentLoaded', () => {
+            const rankingManager = new RankingManager();
+            rankingManager.initialize();
+        });
     </script>
 </head>
 <body>
@@ -748,6 +1423,107 @@
                 <input type="text" class="search-input">
             </div>
         </header>
+
+        <div class="category">
+            <h2 class="category-title" data-key="news">AI News & Updates</h2>
+            <div class="tools-grid">
+                <div class="news-card">
+                    <div class="news-date">2024-03-22</div>
+                    <div class="news-title">OpenAI发布Sora技术报告，揭示AI视频生成技术细节</div>
+                    <div class="news-desc">OpenAI详细介绍了Sora的工作原理，包括其如何理解时间、空间和动作的关系，以及如何生成连贯的长视频。</div>
+                    <div class="news-source">来源：OpenAI Blog</div>
+                    <a href="https://openai.com/blog/sora-technical-report" class="news-link" target="_blank"></a>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-date">2024-03-21</div>
+                    <div class="news-title">谷歌发布Gemini 1.5 Pro：支持1百万Token上下文窗口</div>
+                    <div class="news-desc">Gemini 1.5 Pro可以处理长达1百万个token的输入，相当于约350万个单词，大幅提升了AI模型的长文本处理能力。</div>
+                    <div class="news-source">来源：Google AI Blog</div>
+                    <a href="https://blog.google/technology/ai/gemini-1-5-pro/" class="news-link" target="_blank"></a>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-date">2024-03-20</div>
+                    <div class="news-title">Anthropic推出Claude 3系列模型，性能超越GPT-4</div>
+                    <div class="news-desc">Anthropic发布了Claude 3 Opus、Sonnet和Haiku三个版本，在多项基准测试中超越了GPT-4的表现。</div>
+                    <div class="news-source">来源：Anthropic Blog</div>
+                    <a href="https://www.anthropic.com/news" class="news-link" target="_blank"></a>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-date">2024-03-19</div>
+                    <div class="news-title">Meta发布新一代图像生成模型Emu Video</div>
+                    <div class="news-desc">Meta推出的Emu Video模型可以从文本或图像生成高质量视频，支持多种视频风格和长度。</div>
+                    <div class="news-source">来源：Meta AI Research</div>
+                    <a href="https://ai.meta.com/research/" class="news-link" target="_blank"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title" data-key="ranking">AI Rankings & Evaluations</h2>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="zhongping">
+                    <div class="tool-name">众评数据</div>
+                    <div class="tool-desc">全球最大的AI网站排行榜，涵盖2100+顶尖AI工具</div>
+                    <a href="https://www.zhongping.com/rank/ai" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="aigcrank">
+                    <div class="tool-name">AIGCRank</div>
+                    <div class="tool-desc">专注于国内外AI产品横向对比的评测平台</div>
+                    <a href="https://aigcrank.cn" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="chatbot-arena">
+                    <div class="tool-name">Chatbot Arena</div>
+                    <div class="tool-desc">UC伯克利大学主导的AI模型对比评测平台</div>
+                    <a href="https://chat.lmsys.org/" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="artificial-analysis">
+                    <div class="tool-name">Artificial Analysis</div>
+                    <div class="tool-desc">独立第三方AI模型评估平台，评测9大核心能力</div>
+                    <a href="https://artificial-analysis.com/" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="seal-llm">
+                    <div class="tool-name">SEAL LLM Leaderboards</div>
+                    <div class="tool-desc">Scale实验室开发的AI模型评测平台</div>
+                    <a href="https://scale.com/seal" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="superclue">
+                    <div class="tool-name">SuperCLUE</div>
+                    <div class="tool-desc">中文场景下的领先评测基准平台</div>
+                    <a href="https://www.superclueai.com/" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="lambdatest">
+                    <div class="tool-name">LambdaTest AI Rankings</div>
+                    <div class="tool-desc">软件开发与测试领域AI工具榜单</div>
+                    <a href="https://www.lambdatest.com/ai-tools" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="impact50">
+                    <div class="tool-name">InsideBigData IMPACT 50</div>
+                    <div class="tool-desc">MIT和哈佛联合发布的AI企业季度榜单</div>
+                    <a href="https://insidebigdata.com/impact-50/" class="tool-link" target="_blank">Visit Website →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title" data-key="realtime-ranking">实时AI排行榜</h2>
+            <div class="ranking-container">
+                <div class="ranking-header">
+                    <div class="ranking-title">AI模型性能排行</div>
+                    <div class="ranking-update-time">最后更新: <span id="lastUpdateTime">加载中...</span></div>
+                </div>
+                <div class="ranking-tabs">
+                    <div class="ranking-tab active" data-source="lmsys">Chatbot Arena</div>
+                    <div class="ranking-tab" data-source="aigcrank">AIGCRank</div>
+                    <div class="ranking-tab" data-source="zhongping">众评数据</div>
+                </div>
+                <div class="ranking-list" id="rankingList">
+                    <!-- 排行榜内容将由JavaScript动态填充 -->
+                </div>
+            </div>
+        </div>
 
         <div class="category">
             <h2 class="category-title" data-key="text">Text & Conversation</h2>
