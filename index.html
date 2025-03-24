@@ -1,56 +1,843 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JK5VCJC7EK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-JK5VCJC7EK');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Tools Navigator</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f916.png">
+    <link rel="apple-touch-icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f916.png">
+    <link rel="shortcut icon" type="image/x-icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f916.png">
+    <title>AI Tools Navigator | Global AI Tools Collection</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">AI Tools Navigator</div>
+    <div class="container">
+        <header>
             <div class="lang-switch">
-                <div class="lang-current">
-                    <span class="lang-text">English</span>
-                    <span class="lang-arrow">▼</span>
-                </div>
-                <div class="lang-options">
-                    <div class="lang-option" data-lang="en">English</div>
-                    <div class="lang-option" data-lang="zh">中文</div>
-                    <div class="lang-option" data-lang="es">Español</div>
-                    <div class="lang-option" data-lang="ar">العربية</div>
-                    <div class="lang-option" data-lang="fr">Français</div>
+                <div class="lang-current" id="lang-toggle">
+                    <img src="https://flagcdn.com/48x36/us.png" alt="English" class="lang-flag" id="current-flag">
+                    <span id="current-lang">English</span>
                 </div>
             </div>
-        </div>
-    </header>
-
-    <main>
-        <div class="search-container">
-            <input type="text" class="search-input" placeholder="Search AI tools...">
-        </div>
-
-        <div class="tools-grid">
-            <!-- Tool cards will be dynamically populated -->
-        </div>
-
-        <div class="ranking-container">
-            <div class="ranking-header">
-                <h2>AI Model Rankings</h2>
-                <span class="last-update">Last updated: <time></time></span>
+            <h1>AI Tools Navigator</h1>
+            <p>Global AI Tools Collection | Updated March 2024</p>
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Search AI tools..." id="search-input">
             </div>
-            <div class="ranking-tabs">
-                <button class="ranking-tab active" data-source="lmsys">LMSYS</button>
-                <button class="ranking-tab" data-source="aigcrank">AIGC Rank</button>
-                <button class="ranking-tab" data-source="zhongping">AI Zhongping</button>
-            </div>
-            <ul class="ranking-list">
-                <!-- Ranking items will be dynamically populated -->
-            </ul>
-        </div>
-    </main>
+        </header>
 
-    <script type="module" src="js/app.js"></script>
+        <!-- 第一行：新闻和排行榜 -->
+        <div class="row">
+            <!-- AI新闻动态 -->
+            <div class="category news-category">
+                <h2 class="category-title" data-key="news">AI News & Updates</h2>
+                <div class="news-grid">
+                    <div class="news-card" data-news="sora">
+                        <div class="news-date">Mar 15, 2024</div>
+                        <div class="news-title">OpenAI Releases Sora Technical Report, Revealing AI Video Generation Technology Details</div>
+                        <div class="news-desc">OpenAI details how Sora works, including how it understands relationships between time, space, and motion, and how it generates coherent long videos.</div>
+                        <div class="news-source">Source: OpenAI</div>
+                        <a href="https://openai.com/research/video-generation-models-as-world-simulators" class="news-read-more" target="_blank">Read More</a>
+                    </div>
+                    <div class="news-card" data-news="gemini">
+                        <div class="news-date">Feb 15, 2024</div>
+                        <div class="news-title">Google Releases Gemini 1.5 Pro: Supporting 1 Million Token Context Window</div>
+                        <div class="news-desc">Gemini 1.5 Pro can process inputs up to 1 million tokens, equivalent to about 3.5 million words, significantly improving AI model's long text processing capabilities.</div>
+                        <div class="news-source">Source: Google</div>
+                        <a href="https://blog.google/technology/ai/google-gemini-next-generation-model-february-2024/" class="news-read-more" target="_blank">Read More</a>
+                    </div>
+                    <div class="news-card" data-news="claude">
+                        <div class="news-date">Mar 4, 2024</div>
+                        <div class="news-title">Anthropic Launches Claude 3 Series Models, Outperforming GPT-4</div>
+                        <div class="news-desc">Anthropic has released Claude 3 Opus, Sonnet, and Haiku versions, surpassing GPT-4's performance in multiple benchmark tests.</div>
+                        <div class="news-source">Source: Anthropic</div>
+                        <a href="https://www.anthropic.com/news/claude-3-family" class="news-read-more" target="_blank">Read More</a>
+                    </div>
+                    <div class="news-card" data-news="emu">
+                        <div class="news-date">Feb 29, 2024</div>
+                        <div class="news-title">Meta Releases Next-Generation Image Generation Model Emu Video</div>
+                        <div class="news-desc">Meta's Emu Video model can generate high-quality videos from text or images, supporting various video styles and lengths.</div>
+                        <div class="news-source">Source: Meta</div>
+                        <a href="https://ai.meta.com/blog/emu-video-generation-model/" class="news-read-more" target="_blank">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI排行榜 -->
+            <div class="category ranking-category">
+                <h2 class="category-title" data-key="realtime-ranking">Real-time AI Rankings</h2>
+                <div class="ranking-container">
+                    <div class="ranking-header">
+                        <div class="ranking-title">AI Model Performance Rankings</div>
+                        <div class="ranking-update-time">Last Update: <span id="lastUpdateTime">2024-03-20 10:00:00</span></div>
+                    </div>
+                    <div class="ranking-tabs">
+                        <div class="ranking-tab active" data-source="lmsys">Chatbot Arena</div>
+                        <div class="ranking-tab" data-source="aigcrank">AIGCRank</div>
+                        <div class="ranking-tab" data-source="zhongping">Zhongping Data</div>
+                    </div>
+                    <div class="ranking-list">
+                        <!-- 排行榜项目将由JavaScript动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI评测平台 -->
+        <div class="category">
+            <h2 class="category-title" data-key="ranking">AI Rankings & Evaluations</h2>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="zhongping">
+                    <div class="tool-name">Zhongping Data</div>
+                    <div class="tool-desc">Global AI website ranking with 2100+ top AI tools</div>
+                    <a href="https://www.zhongping.com" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="aigcrank">
+                    <div class="tool-name">AIGCRank</div>
+                    <div class="tool-desc">Comprehensive AI product comparison platform</div>
+                    <a href="https://www.aigcrank.com" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="chatbot-arena">
+                    <div class="tool-name">Chatbot Arena</div>
+                    <div class="tool-desc">AI model evaluation platform by UC Berkeley</div>
+                    <a href="https://chat.lmsys.org" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="artificial-analysis">
+                    <div class="tool-name">Artificial Analysis</div>
+                    <div class="tool-desc">Independent AI model evaluation with 9 core metrics</div>
+                    <a href="https://artificialanalysis.ai" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="seal-llm">
+                    <div class="tool-name">SEAL LLM Leaderboards</div>
+                    <div class="tool-desc">AI model benchmarking by Scale Lab</div>
+                    <a href="https://benchmarks.scale.com" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="superclue">
+                    <div class="tool-name">SuperCLUE</div>
+                    <div class="tool-desc">Leading Chinese language AI benchmark platform</div>
+                    <a href="https://www.superclueai.com" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="lambdatest">
+                    <div class="tool-name">LambdaTest AI Rankings</div>
+                    <div class="tool-desc">AI tools ranking for software development</div>
+                    <a href="https://www.lambdatest.com/ai-tools-rank" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="impact50">
+                    <div class="tool-name">InsideBigData IMPACT 50</div>
+                    <div class="tool-desc">Quarterly AI enterprise ranking by MIT and Harvard</div>
+                    <a href="https://insidebigdata.com/impact-50/" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 文本与对话 -->
+        <div class="category">
+            <h2 class="category-title" data-key="text">Text & Conversation</h2>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="chatgpt">
+                    <div class="tool-name">ChatGPT</div>
+                    <div class="tool-desc">Conversational AI model by OpenAI</div>
+                    <a href="https://chat.openai.com" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="claude">
+                    <div class="tool-name">Claude</div>
+                    <div class="tool-desc">Multimodal AI assistant by Anthropic</div>
+                    <a href="https://claude.ai" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="gemini">
+                    <div class="tool-name">Gemini Advanced</div>
+                    <div class="tool-desc">Google's latest multimodal AI model</div>
+                    <a href="https://gemini.google.com" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="perplexity">
+                    <div class="tool-name">Perplexity AI</div>
+                    <div class="tool-desc">Real-time search-enhanced AI Q&A system</div>
+                    <a href="https://www.perplexity.ai" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="chatpdf">
+                    <div class="tool-name">ChatPDF</div>
+                    <div class="tool-desc">Intelligent conversation with PDF documents</div>
+                    <a href="https://www.chatpdf.com" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="poe">
+                    <div class="tool-name">Poe</div>
+                    <div class="tool-desc">Multiple AI models integration platform</div>
+                    <a href="https://poe.com" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="guiji">
+                    <div class="tool-name">Silicon Language AI</div>
+                    <div class="tool-desc">Chinese AI conversation assistant</div>
+                    <a href="https://chat.guiji.ai" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="chatglm">
+                    <div class="tool-name">ChatGLM</div>
+                    <div class="tool-desc">Chinese large language model platform</div>
+                    <a href="https://chatglm.cn" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 图像与设计 -->
+        <div class="category">
+            <h2 class="category-title" data-key="image">Image & Design</h2>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="midjourney">
+                    <div class="tool-name">MidJourney</div>
+                    <div class="tool-desc">AI art and image generation tool</div>
+                    <a href="https://www.midjourney.com" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="dall-e-3">
+                    <div class="tool-name">DALL·E 3</div>
+                    <div class="tool-desc">Latest image generation model by OpenAI</div>
+                    <a href="https://openai.com/dall-e-3" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="adobe-firefly">
+                    <div class="tool-name">Adobe Firefly</div>
+                    <div class="tool-desc">Adobe's creative AI tools suite</div>
+                    <a href="https://www.adobe.com/sensei/generative-ai/firefly.html" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="remove-bg">
+                    <div class="tool-name">Remove.bg</div>
+                    <div class="tool-desc">Smart background removal tool</div>
+                    <a href="https://www.remove.bg" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="playground-ai">
+                    <div class="tool-name">Playground AI</div>
+                    <div class="tool-desc">Fast high-quality image generation</div>
+                    <a href="https://playground.ai" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="dreamstudio">
+                    <div class="tool-name">DreamStudio</div>
+                    <div class="tool-desc">Official Stability AI image platform</div>
+                    <a href="https://dreamstudio.ai" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="dreamlike-art">
+                    <div class="tool-name">Dreamlike.art</div>
+                    <div class="tool-desc">Artistic style AI image generation</div>
+                    <a href="https://dreamlike.art/create" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="smart-removal">
+                    <div class="tool-name">Smart Removal</div>
+                    <div class="tool-desc">Online watermark and subtitle removal</div>
+                    <a href="https://zenvideo.qq.com/smart/waterMask" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 编程与开发 -->
+        <div class="category">
+            <h2 class="category-title" data-key="code">Programming & Development</h2>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="github-copilot">
+                    <div class="tool-name">GitHub Copilot</div>
+                    <div class="tool-desc">AI-powered code completion</div>
+                    <a href="https://github.com/features/copilot" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="microsoft-copilot">
+                    <div class="tool-name">Microsoft Copilot</div>
+                    <div class="tool-desc">Microsoft's versatile AI assistant</div>
+                    <a href="https://copilot.microsoft.com" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 音频与视频 -->
+        <div class="category">
+            <h2 class="category-title" data-key="media">Audio & Video</h2>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="suno-ai">
+                    <div class="tool-name">Suno AI</div>
+                    <div class="tool-desc">AI music creation platform</div>
+                    <a href="https://suno.ai" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="elevenlabs">
+                    <div class="tool-name">ElevenLabs</div>
+                    <div class="tool-desc">AI voice cloning and synthesis</div>
+                    <a href="https://elevenlabs.io" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="runway-ml">
+                    <div class="tool-name">Runway ML</div>
+                    <div class="tool-desc">AI video editing tools</div>
+                    <a href="https://runway.ml" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="descript">
+                    <div class="tool-name">Descript</div>
+                    <div class="tool-desc">Smart audio & video editing platform</div>
+                    <a href="https://www.descript.com" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="tongyi-tingwu">
+                    <div class="tool-name">Tongyi Tingwu</div>
+                    <div class="tool-desc">Alibaba's intelligent voice processing</div>
+                    <a href="https://tingwu.aliyun.com/home" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="d-id">
+                    <div class="tool-name">D-ID</div>
+                    <div class="tool-desc">AI digital human video creation</div>
+                    <a href="https://studio.d-id.com/" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="heygen">
+                    <div class="tool-name">HeyGen</div>
+                    <div class="tool-desc">AI virtual presenter videos</div>
+                    <a href="https://app.heygen.com/home" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 生产力与创作 -->
+        <div class="category">
+            <h2 class="category-title" data-key="productivity">Productivity & Creation</h2>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="notion-ai">
+                    <div class="tool-name">Notion AI</div>
+                    <div class="tool-desc">Intelligent document collaboration</div>
+                    <a href="https://www.notion.so/product/ai" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="gamma">
+                    <div class="tool-name">Gamma</div>
+                    <div class="tool-desc">AI-powered presentation generation</div>
+                    <a href="https://gamma.app" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="canva-magic-studio">
+                    <div class="tool-name">Canva Magic Studio</div>
+                    <div class="tool-desc">AI design automation tools</div>
+                    <a href="https://www.canva.com/magic-studio/" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="grammarly">
+                    <div class="tool-name">Grammarly</div>
+                    <div class="tool-desc">AI writing assistant & grammar checker</div>
+                    <a href="https://www.grammarly.com" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="typewriteress">
+                    <div class="tool-name">Typewriteress</div>
+                    <div class="tool-desc">Chinese AI writing assistant</div>
+                    <a href="https://app.typewriteress.cn/templates/official-tools" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="weekly-report">
+                    <div class="tool-name">Weekly Report Generator</div>
+                    <div class="tool-desc">Smart work report generation tool</div>
+                    <a href="https://weeklyreport.avemaria.fun/zh" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="postme">
+                    <div class="tool-name">PostMe</div>
+                    <div class="tool-desc">Chinese AI content creation platform</div>
+                    <a href="http://postme.cn/#/PostMe/Index" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 其他工具 -->
+        <div class="category">
+            <h2 class="category-title" data-key="other">Other Tools</h2>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="fliki">
+                    <div class="tool-name">Fliki</div>
+                    <div class="tool-desc">Text to video conversion tool</div>
+                    <a href="https://app.fliki.ai/files/64b8d9caea762438dbd8a571" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="synthesia">
+                    <div class="tool-name">Synthesia</div>
+                    <div class="tool-desc">AI digital human video platform</div>
+                    <a href="https://www.synthesia.io" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+                <div class="tool-card" data-tool="aishort">
+                    <div class="tool-name">AI Prompt Sheet</div>
+                    <div class="tool-desc">Collection of AI prompt commands</div>
+                    <a href="https://www.aishort.top/" class="tool-link" target="_blank" data-link="visit">Visit Website →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 排行榜管理器相关的JavaScript -->
+    <script type="module" src="ranking-manager.js"></script>
+    
+    <!-- 语言管理器相关的JavaScript -->
+    <script>
+        // 翻译数据
+        const translations = {
+            en: {
+                title: 'AI Tools Navigator',
+                subtitle: 'Global AI Tools Collection | Updated March 2024',
+                search: 'Search AI tools...',
+                categories: {
+                    text: 'Text & Conversation',
+                    image: 'Image & Design',
+                    code: 'Programming & Development',
+                    media: 'Audio & Video',
+                    productivity: 'Productivity & Creation',
+                    other: 'Other Tools',
+                    ranking: 'AI Rankings & Evaluations',
+                    news: 'AI News & Updates',
+                    'realtime-ranking': 'Real-time AI Rankings'
+                },
+                visit: 'Visit Website',
+                news: {
+                    source: 'Source',
+                    readMore: 'Read More'
+                },
+                ranking: {
+                    title: 'AI Model Performance Rankings',
+                    lastUpdate: 'Last Update',
+                    metrics: {
+                        accuracy: 'Accuracy',
+                        speed: 'Response Time',
+                        quality: 'Quality',
+                        users: 'Active Users',
+                        rating: 'User Rating'
+                    },
+                    sources: {
+                        lmsys: 'Chatbot Arena',
+                        aigcrank: 'AIGCRank',
+                        zhongping: 'Zhongping Data'
+                    }
+                }
+            },
+            zh: {
+                title: 'AI工具导航',
+                subtitle: '全球AI工具集合 | 2024年3月更新',
+                search: '搜索AI工具...',
+                categories: {
+                    text: '文本与对话',
+                    image: '图像与设计',
+                    code: '编程与开发',
+                    media: '音频与视频',
+                    productivity: '生产力与创作',
+                    other: '其他工具',
+                    ranking: 'AI模型评测平台',
+                    news: 'AI新闻动态',
+                    'realtime-ranking': 'AI模型性能排行'
+                },
+                visit: '访问网站',
+                news: {
+                    source: '来源',
+                    readMore: '阅读更多'
+                },
+                ranking: {
+                    title: 'AI模型性能排行',
+                    lastUpdate: '最后更新',
+                    metrics: {
+                        accuracy: '准确性',
+                        speed: '响应速度',
+                        quality: '质量',
+                        users: '活跃用户',
+                        rating: '用户评分'
+                    },
+                    sources: {
+                        lmsys: 'Chatbot Arena',
+                        aigcrank: 'AIGCRank',
+                        zhongping: '中评数据'
+                    }
+                }
+            }
+        };
+
+        // 工具卡片的多语言数据
+        const toolTranslations = {
+            en: {
+                chatgpt: { name: 'ChatGPT', desc: 'Conversational AI model by OpenAI' },
+                claude: { name: 'Claude', desc: 'Multimodal AI assistant by Anthropic' },
+                gemini: { name: 'Gemini Advanced', desc: 'Google\'s latest multimodal AI model' },
+                perplexity: { name: 'Perplexity AI', desc: 'Real-time search-enhanced AI Q&A system' },
+                chatpdf: { name: 'ChatPDF', desc: 'Intelligent conversation with PDF documents' },
+                poe: { name: 'Poe', desc: 'Multiple AI models integration platform' },
+                guiji: { name: 'Silicon Language AI', desc: 'Chinese AI conversation assistant' },
+                chatglm: { name: 'ChatGLM', desc: 'Chinese large language model platform' },
+                midjourney: { name: 'MidJourney', desc: 'AI art and image generation tool' },
+                'dall-e-3': { name: 'DALL·E 3', desc: 'Latest image generation model by OpenAI' },
+                'adobe-firefly': { name: 'Adobe Firefly', desc: 'Adobe\'s creative AI tools suite' },
+                'remove-bg': { name: 'Remove.bg', desc: 'Smart background removal tool' },
+                'playground-ai': { name: 'Playground AI', desc: 'Fast high-quality image generation' },
+                dreamstudio: { name: 'DreamStudio', desc: 'Official Stability AI image platform' },
+                'dreamlike-art': { name: 'Dreamlike.art', desc: 'Artistic style AI image generation' },
+                'smart-removal': { name: 'Smart Removal', desc: 'Online watermark and subtitle removal' },
+                'github-copilot': { name: 'GitHub Copilot', desc: 'AI-powered code completion' },
+                'microsoft-copilot': { name: 'Microsoft Copilot', desc: 'Microsoft\'s versatile AI assistant' },
+                'suno-ai': { name: 'Suno AI', desc: 'AI music creation platform' },
+                elevenlabs: { name: 'ElevenLabs', desc: 'AI voice cloning and synthesis' },
+                'runway-ml': { name: 'Runway ML', desc: 'AI video editing tools' },
+                descript: { name: 'Descript', desc: 'Smart audio & video editing platform' },
+                'tongyi-tingwu': { name: 'Tongyi Tingwu', desc: 'Alibaba\'s intelligent voice processing' },
+                'd-id': { name: 'D-ID', desc: 'AI digital human video creation' },
+                heygen: { name: 'HeyGen', desc: 'AI virtual presenter videos' },
+                'notion-ai': { name: 'Notion AI', desc: 'Intelligent document collaboration' },
+                gamma: { name: 'Gamma', desc: 'AI-powered presentation generation' },
+                'canva-magic-studio': { name: 'Canva Magic Studio', desc: 'AI design automation tools' },
+                grammarly: { name: 'Grammarly', desc: 'AI writing assistant & grammar checker' },
+                typewriteress: { name: 'Typewriteress', desc: 'Chinese AI writing assistant' },
+                'weekly-report': { name: 'Weekly Report Generator', desc: 'Smart work report generation tool' },
+                postme: { name: 'PostMe', desc: 'Chinese AI content creation platform' },
+                fliki: { name: 'Fliki', desc: 'Text to video conversion tool' },
+                synthesia: { name: 'Synthesia', desc: 'AI digital human video platform' },
+                aishort: { name: 'AI Prompt Sheet', desc: 'Collection of AI prompt commands' },
+                zhongping: { name: 'Zhongping Data', desc: 'Global AI website ranking with 2100+ top AI tools' },
+                aigcrank: { name: 'AIGCRank', desc: 'Comprehensive AI product comparison platform' },
+                'chatbot-arena': { name: 'Chatbot Arena', desc: 'AI model evaluation platform by UC Berkeley' },
+                'artificial-analysis': { name: 'Artificial Analysis', desc: 'Independent AI model evaluation with 9 core metrics' },
+                'seal-llm': { name: 'SEAL LLM Leaderboards', desc: 'AI model benchmarking by Scale Lab' },
+                superclue: { name: 'SuperCLUE', desc: 'Leading Chinese language AI benchmark platform' },
+                lambdatest: { name: 'LambdaTest AI Rankings', desc: 'AI tools ranking for software development' },
+                impact50: { name: 'InsideBigData IMPACT 50', desc: 'Quarterly AI enterprise ranking by MIT and Harvard' }
+            },
+            zh: {
+                chatgpt: { name: 'ChatGPT', desc: 'OpenAI开发的对话式AI模型' },
+                claude: { name: 'Claude', desc: 'Anthropic的多模态AI助手' },
+                gemini: { name: 'Gemini Advanced', desc: '谷歌最新多模态AI模型' },
+                perplexity: { name: 'Perplexity AI', desc: '实时搜索增强的AI问答系统' },
+                chatpdf: { name: 'ChatPDF', desc: '与PDF文档智能对话工具' },
+                poe: { name: 'Poe', desc: '多种AI模型集成平台' },
+                guiji: { name: '硅语AI', desc: '中文AI对话助手' },
+                chatglm: { name: 'ChatGLM', desc: '中文大语言模型平台' },
+                midjourney: { name: 'MidJourney', desc: 'AI艺术与图像生成工具' },
+                'dall-e-3': { name: 'DALL·E 3', desc: 'OpenAI最新图像生成模型' },
+                'adobe-firefly': { name: 'Adobe Firefly', desc: 'Adobe创意AI工具套件' },
+                'remove-bg': { name: 'Remove.bg', desc: '智能背景去除工具' },
+                'playground-ai': { name: 'Playground AI', desc: '快速高质量图像生成' },
+                dreamstudio: { name: 'DreamStudio', desc: 'Stability AI官方图像平台' },
+                'dreamlike-art': { name: 'Dreamlike.art', desc: '艺术风格AI图像生成' },
+                'smart-removal': { name: '智能抹除', desc: '在线去水印去字幕工具' },
+                'github-copilot': { name: 'GitHub Copilot', desc: 'AI驱动的代码智能补全' },
+                'microsoft-copilot': { name: 'Microsoft Copilot', desc: '微软全能AI助手' },
+                'suno-ai': { name: 'Suno AI', desc: 'AI音乐创作平台' },
+                elevenlabs: { name: 'ElevenLabs', desc: 'AI语音克隆与合成' },
+                'runway-ml': { name: 'Runway ML', desc: 'AI视频编辑工具' },
+                descript: { name: 'Descript', desc: '智能音视频编辑平台' },
+                'tongyi-tingwu': { name: '通义听悟', desc: '阿里智能语音处理平台' },
+                'd-id': { name: 'D-ID', desc: 'AI数字人视频制作' },
+                heygen: { name: 'HeyGen', desc: 'AI虚拟发言人视频' },
+                'notion-ai': { name: 'Notion AI', desc: '智能文档协作平台' },
+                gamma: { name: 'Gamma', desc: 'AI驱动的演示文稿生成' },
+                'canva-magic-studio': { name: 'Canva Magic Studio', desc: 'AI设计自动化工具' },
+                grammarly: { name: 'Grammarly', desc: 'AI写作助手与语法检查' },
+                typewriteress: { name: '打字姬', desc: '中文AI写作助手' },
+                'weekly-report': { name: '周报生成器', desc: '智能工作周报生成工具' },
+                postme: { name: 'PostMe', desc: '中文AI内容创作平台' },
+                fliki: { name: 'Fliki', desc: '图文转视频工具' },
+                synthesia: { name: 'Synthesia', desc: 'AI数字人视频生成平台' },
+                aishort: { name: 'AI快捷指令表', desc: 'AI提示词指令集合' },
+                zhongping: { name: '中评数据', desc: '全球AI网站排名，收录2100+顶级AI工具' },
+                aigcrank: { name: 'AIGCRank', desc: '全面的AI产品对比平台' },
+                'chatbot-arena': { name: 'Chatbot Arena', desc: '加州大学伯克利分校的AI模型评测平台' },
+                'artificial-analysis': { name: 'Artificial Analysis', desc: '独立AI模型评估，包含9项核心指标' },
+                'seal-llm': { name: 'SEAL LLM排行榜', desc: 'Scale Lab开发的AI模型基准测试' },
+                superclue: { name: 'SuperCLUE', desc: '领先的中文语言AI基准平台' },
+                lambdatest: { name: 'LambdaTest AI排名', desc: '软件开发AI工具排名' },
+                impact50: { name: 'InsideBigData IMPACT 50', desc: 'MIT和哈佛的季度AI企业排名' }
+            }
+        };
+
+        // 新闻的多语言数据
+        const newsTranslations = {
+            en: {
+                sora: {
+                    title: 'OpenAI Releases Sora Technical Report, Revealing AI Video Generation Technology Details',
+                    desc: 'OpenAI details how Sora works, including how it understands relationships between time, space, and motion, and how it generates coherent long videos.'
+                },
+                gemini: {
+                    title: 'Google Releases Gemini 1.5 Pro: Supporting 1 Million Token Context Window',
+                    desc: 'Gemini 1.5 Pro can process inputs up to 1 million tokens, equivalent to about 3.5 million words, significantly improving AI model\'s long text processing capabilities.'
+                },
+                claude: {
+                    title: 'Anthropic Launches Claude 3 Series Models, Outperforming GPT-4',
+                    desc: 'Anthropic has released Claude 3 Opus, Sonnet, and Haiku versions, surpassing GPT-4\'s performance in multiple benchmark tests.'
+                },
+                emu: {
+                    title: 'Meta Releases Next-Generation Image Generation Model Emu Video',
+                    desc: 'Meta\'s Emu Video model can generate high-quality videos from text or images, supporting various video styles and lengths.'
+                }
+            },
+            zh: {
+                sora: {
+                    title: 'OpenAI发布Sora技术报告，揭示AI视频生成技术细节',
+                    desc: 'OpenAI详细介绍了Sora的工作原理，包括它如何理解时间、空间和运动之间的关系，以及如何生成连贯的长视频。'
+                },
+                gemini: {
+                    title: '谷歌发布Gemini 1.5 Pro：支持100万token上下文窗口',
+                    desc: 'Gemini 1.5 Pro可处理高达100万token的输入，相当于约350万字，大幅提升AI模型长文本处理能力。'
+                },
+                claude: {
+                    title: 'Anthropic推出Claude 3系列模型，性能超越GPT-4',
+                    desc: 'Anthropic发布了Claude 3 Opus、Sonnet和Haiku三个版本，在多项基准测试中超越GPT-4的表现。'
+                },
+                emu: {
+                    title: 'Meta发布新一代图像生成模型Emu Video',
+                    desc: 'Meta的Emu Video模型可以从文本或图像生成高质量视频，支持各种视频风格和长度。'
+                }
+            }
+        };
+
+        // 排行榜数据（示例）
+        const rankingData = {
+            lmsys: [
+                { position: 1, model: 'Claude 3 Opus', metrics: { accuracy: '96.8%', speed: '3.2s', quality: '9.3/10', users: '2.5M' }, trend: 'up' },
+                { position: 2, model: 'GPT-4 Turbo', metrics: { accuracy: '95.2%', speed: '4.1s', quality: '9.1/10', users: '5M+' }, trend: 'neutral' },
+                { position: 3, model: 'Claude 3 Sonnet', metrics: { accuracy: '94.7%', speed: '2.5s', quality: '8.9/10', users: '1.8M' }, trend: 'up' },
+                { position: 4, model: 'Gemini 1.5 Pro', metrics: { accuracy: '93.5%', speed: '3.7s', quality: '8.7/10', users: '1.2M' }, trend: 'up' },
+                { position: 5, model: 'Claude 3 Haiku', metrics: { accuracy: '91.3%', speed: '1.9s', quality: '8.5/10', users: '950K' }, trend: 'up' }
+            ],
+            aigcrank: [
+                { position: 1, model: 'Claude 3 Opus', metrics: { accuracy: '97.1%', speed: '3.3s', quality: '9.4/10', rating: '4.9/5' }, trend: 'up' },
+                { position: 2, model: 'GPT-4o', metrics: { accuracy: '96.8%', speed: '2.9s', quality: '9.3/10', rating: '4.8/5' }, trend: 'up' },
+                { position: 3, model: 'GPT-4 Turbo', metrics: { accuracy: '95.5%', speed: '4.0s', quality: '9.2/10', rating: '4.8/5' }, trend: 'down' },
+                { position: 4, model: 'Gemini 1.5 Pro', metrics: { accuracy: '94.2%', speed: '3.5s', quality: '8.9/10', rating: '4.7/5' }, trend: 'up' },
+                { position: 5, model: 'Claude 3 Sonnet', metrics: { accuracy: '93.8%', speed: '2.4s', quality: '8.8/10', rating: '4.7/5' }, trend: 'down' }
+            ],
+            zhongping: [
+                { position: 1, model: 'GPT-4o', metrics: { accuracy: '97.3%', speed: '2.8s', quality: '9.5/10', users: '6M+' }, trend: 'up' },
+                { position: 2, model: 'Claude 3 Opus', metrics: { accuracy: '96.9%', speed: '3.4s', quality: '9.4/10', users: '2.8M' }, trend: 'neutral' },
+                { position: 3, model: 'Gemini 1.5 Pro', metrics: { accuracy: '95.1%', speed: '3.3s', quality: '9.0/10', users: '1.5M' }, trend: 'up' },
+                { position: 4, model: 'GPT-4 Turbo', metrics: { accuracy: '94.8%', speed: '4.2s', quality: '9.0/10', users: '5.5M' }, trend: 'down' },
+                { position: 5, model: 'GLM-4', metrics: { accuracy: '92.5%', speed: '3.1s', quality: '8.7/10', users: '1.1M' }, trend: 'up' }
+            ]
+        };
+
+        // 当前语言
+        let currentLang = localStorage.getItem('preferredLanguage') || 'en';
+        
+        // 当前排行榜数据源
+        let currentRankingSource = 'lmsys';
+
+        // 切换语言
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'zh' : 'en';
+            localStorage.setItem('preferredLanguage', currentLang);
+            updateContent();
+            updateFlag();
+        }
+
+        // 更新语言切换器的图标和文本
+        function updateFlag() {
+            const flagSrc = currentLang === 'en' ? 'https://flagcdn.com/48x36/us.png' : 'https://flagcdn.com/48x36/cn.png';
+            const langText = currentLang === 'en' ? 'English' : '中文';
+            
+            document.getElementById('current-flag').src = flagSrc;
+            document.getElementById('current-lang').textContent = langText;
+        }
+
+        // 更新排行榜显示
+        function updateRankingDisplay() {
+            const rankingList = document.querySelector('.ranking-list');
+            if (!rankingList) return;
+            
+            // 清空现有排行
+            rankingList.innerHTML = '';
+            
+            // 获取当前语言的翻译
+            const lang = translations[currentLang];
+            
+            // 添加排行项
+            rankingData[currentRankingSource].forEach(item => {
+                const rankingItem = document.createElement('div');
+                rankingItem.className = 'ranking-item';
+                
+                // 排名位置
+                const positionClass = item.position <= 3 ? `pos-${item.position}` : '';
+                
+                // 趋势图标
+                let trendIcon, trendClass;
+                if (item.trend === 'up') {
+                    trendIcon = '↑';
+                    trendClass = 'trend-up';
+                } else if (item.trend === 'down') {
+                    trendIcon = '↓';
+                    trendClass = 'trend-down';
+                } else {
+                    trendIcon = '–';
+                    trendClass = 'trend-neutral';
+                }
+                
+                // 构建指标HTML
+                let metricsHtml = '';
+                for (const [key, value] of Object.entries(item.metrics)) {
+                    if (lang.ranking.metrics[key]) {
+                        metricsHtml += `
+                            <div class="ranking-metric">
+                                <span class="ranking-metric-name">${lang.ranking.metrics[key]}:</span>
+                                <span class="ranking-metric-value">${value}</span>
+                            </div>
+                        `;
+                    }
+                }
+                
+                // 设置HTML内容
+                rankingItem.innerHTML = `
+                    <div class="ranking-position ${positionClass}">${item.position}</div>
+                    <div class="ranking-info">
+                        <div class="ranking-model">${item.model}</div>
+                        <div class="ranking-metrics">
+                            ${metricsHtml}
+                        </div>
+                    </div>
+                    <div class="ranking-trend ${trendClass}">
+                        ${trendIcon}
+                    </div>
+                `;
+                
+                rankingList.appendChild(rankingItem);
+            });
+            
+            // 更新最后更新时间
+            document.getElementById('lastUpdateTime').textContent = new Date().toLocaleString(currentLang);
+        }
+
+        // 切换排行榜数据源
+        function switchRankingSource(source) {
+            if (!rankingData[source]) return;
+            
+            currentRankingSource = source;
+            
+            // 更新标签状态
+            document.querySelectorAll('.ranking-tab').forEach(tab => {
+                if (tab.getAttribute('data-source') === source) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+            
+            updateRankingDisplay();
+        }
+
+        // 更新页面内容
+        function updateContent() {
+            const lang = translations[currentLang];
+            
+            // 更新页面标题和副标题
+            document.title = lang.title;
+            document.querySelector('h1').textContent = lang.title;
+            document.querySelector('header p').textContent = lang.subtitle;
+            document.querySelector('.search-input').placeholder = lang.search;
+            
+            // 更新分类标题
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (key && lang.categories[key]) {
+                    el.textContent = lang.categories[key];
+                }
+            });
+            
+            // 更新工具卡片
+            document.querySelectorAll('[data-tool]').forEach(card => {
+                const toolKey = card.getAttribute('data-tool');
+                const toolData = toolTranslations[currentLang] && toolTranslations[currentLang][toolKey];
+                
+                if (toolData) {
+                    const nameEl = card.querySelector('.tool-name');
+                    const descEl = card.querySelector('.tool-desc');
+                    
+                    if (nameEl && toolData.name) nameEl.textContent = toolData.name;
+                    if (descEl && toolData.desc) descEl.textContent = toolData.desc;
+                }
+                
+                // 更新"访问网站"文本
+                const linkEl = card.querySelector('[data-link="visit"]');
+                if (linkEl) {
+                    linkEl.textContent = lang.visit + (currentLang === 'en' ? ' →' : ' →');
+                }
+            });
+            
+            // 更新新闻卡片
+            document.querySelectorAll('[data-news]').forEach(card => {
+                const newsKey = card.getAttribute('data-news');
+                const newsData = newsTranslations[currentLang] && newsTranslations[currentLang][newsKey];
+                
+                if (newsData) {
+                    const titleEl = card.querySelector('.news-title');
+                    const descEl = card.querySelector('.news-desc');
+                    
+                    if (titleEl && newsData.title) titleEl.textContent = newsData.title;
+                    if (descEl && newsData.desc) descEl.textContent = newsData.desc;
+                }
+                
+                // 更新来源和阅读更多文本
+                const sourceEl = card.querySelector('.news-source');
+                if (sourceEl) {
+                    const source = sourceEl.textContent.split(':')[1].trim();
+                    sourceEl.textContent = `${lang.news.source}: ${source}`;
+                }
+                
+                const readMoreEl = card.querySelector('.news-read-more');
+                if (readMoreEl) {
+                    readMoreEl.textContent = lang.news.readMore;
+                }
+            });
+            
+            // 更新排行榜
+            const rankingTitle = document.querySelector('.ranking-title');
+            const lastUpdate = document.querySelector('.ranking-update-time');
+            
+            if (rankingTitle && lastUpdate) {
+                rankingTitle.textContent = lang.ranking.title;
+                const date = new Date().toLocaleString(currentLang);
+                lastUpdate.innerHTML = `${lang.ranking.lastUpdate}: <span id="lastUpdateTime">${date}</span>`;
+            }
+            
+            // 更新排行榜标签
+            document.querySelectorAll('[data-source]').forEach(tab => {
+                const source = tab.getAttribute('data-source');
+                if (source && lang.ranking.sources[source]) {
+                    tab.textContent = lang.ranking.sources[source];
+                }
+            });
+            
+            // 更新排行榜数据
+            updateRankingDisplay();
+        }
+
+        // 初始化语言设置
+        document.addEventListener('DOMContentLoaded', () => {
+            // 语言切换按钮事件
+            document.getElementById('lang-toggle').addEventListener('click', toggleLanguage);
+            
+            // 排行榜标签切换事件
+            document.querySelectorAll('.ranking-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const source = tab.getAttribute('data-source');
+                    switchRankingSource(source);
+                });
+            });
+            
+            // 初始化内容
+            updateFlag();
+            updateContent();
+            
+            // 搜索功能
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
+                
+                document.querySelectorAll('.tool-card').forEach(card => {
+                    const name = card.querySelector('.tool-name').textContent.toLowerCase();
+                    const desc = card.querySelector('.tool-desc').textContent.toLowerCase();
+                    
+                    if (name.includes(query) || desc.includes(query)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // 隐藏空分类
+                document.querySelectorAll('.category').forEach(category => {
+                    const visibleCards = category.querySelectorAll('.tool-card[style="display: block"]').length;
+                    const newsCategory = category.classList.contains('news-category');
+                    const rankingCategory = category.classList.contains('ranking-category');
+                    
+                    if (!newsCategory && !rankingCategory && visibleCards === 0) {
+                        category.style.display = 'none';
+                    } else {
+                        category.style.display = 'block';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html> 
