@@ -541,4 +541,41 @@ body.rtl .lang-current {
     .news-grid {
         grid-template-columns: 1fr;
     }
-} 
+}
+
+/* 页脚样式 */
+footer {
+  background: #181818;
+  color: #eee;
+  text-align: center;
+  padding: 32px 8px 16px 8px;
+  font-size: 15px;
+  border-top: 1px solid #222;
+  margin-top: 48px;
+}
+.footer-links a {
+  color: #7ec4fa;
+  margin: 0 8px;
+  text-decoration: underline;
+}
+.footer-links a:hover {
+  color: #fff;
+  background: #2a5b8c;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+.footer-brand small {
+  display: block;
+  margin: 12px 0 4px 0;
+  color: #b0b0b0;
+}
+.footer-perf {
+  margin-top: 8px;
+  color: #a0e7a0;
+  font-weight: bold;
+}
+
+/* 辅助内容无障碍增强 */
+img, svg { outline: none; }
+[alt] { outline: 2px dashed #7ec4fa; outline-offset: 2px; }
+:focus { outline: 2px solid #7ec4fa; } 
